@@ -1,0 +1,24 @@
+@model MvcTodoApp.Models.TaskItem
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>تعديل المهمة</title>
+</head>
+<body>
+    <h1>تعديل المهمة</h1>
+    
+    <form method="post" asp-action="EditTask">
+        <input type="hidden" name="id" value="@Model.Id" />
+        
+        <div>
+            <label for="newTitle">عنوان المهمة:</label>
+            <input type="text" id="newTitle" name="newTitle" value="@Model.Title" />
+        </div>
+        
+        <button type="submit">حفظ التعديلات</button>
+        <a asp-action="Index">إلغاء</a>
+    </form>
+</body>
+</html>

@@ -7,7 +7,7 @@ namespace MvcTodoApp.Controllers
 {
     public class HomeController : Controller
     {
-        // قائمة محاكاة لقاعدة البيانات (في الذاكرة)
+        //  قائمة محلية تمثل قاعدة البيانات المؤقتة
         private static List<TaskItem> tasks = new List<TaskItem>
         {
             new TaskItem { Id = 1, Title = "تدرب على MVC Design Pattern", IsComplete = false },
@@ -15,17 +15,13 @@ namespace MvcTodoApp.Controllers
             new TaskItem { Id = 3, Title = "تدرب على استخدام git", IsComplete = false },
         };
 
-        /// <summary>
-        /// يعرض القائمة الرئيسية للمهام.
-        /// </summary>
+        //  استرجاع القائمة
         public IActionResult Index()
         {
             return View(tasks);
         }
 
-        /// <summary>
-        /// إضافة مهمة جديدة.
-        /// </summary>
+        //  إضافة مهمة
         [HttpPost]
         public IActionResult AddTask(string title)
         {
@@ -38,9 +34,7 @@ namespace MvcTodoApp.Controllers
             return RedirectToAction("Index");
         }
 
-        /// <summary>
-        /// تعيين مهمة كمكتملة.
-        /// </summary>
+        //  تحديث حالة المهمة
         [HttpPost]
         public IActionResult CompleteTask(int id)
         {
@@ -49,5 +43,26 @@ namespace MvcTodoApp.Controllers
                 task.IsComplete = true;
             return RedirectToAction("Index");
         }
+        //تعديل حالة المهمة 
+
+        [HttpGet]
+public IActionResult EditTask(int id)
+{
+    var task = tasks.FirstOrDefault(t => t.Id == id);
+    if (task == null)
+        return NotFound();
+    return View(task);
+}
+
+[HttpPost]
+public IActionResult EditTask(TaskItem model)
+{
+    var task = tasks.FirstOrDefault(t => t.Id == model.Id);
+    if (task != null && !string.IsNullOrEmpty(model.Title))
+    {
+        task.Title = model.Title;
+    }
+    return RedirectToAction("Index");
+}
     }
 }
